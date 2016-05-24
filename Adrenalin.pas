@@ -1,4 +1,4 @@
-//Версия 1.0.3 by CriDos
+//Версия 1.0.4 by CriDos
 unit Adrenalin;
 
 interface
@@ -905,7 +905,7 @@ function MemToHex(const Mem: ansistring): string; overload;
 function HexToMem(const Hex: string; var Buf): cardinal; overload;
 //Преобразует Hex строку в память
 function HexToMem(const Hex: string): ansistring; overload;
-//Вывод информации в консоль
+//Вывод информации в окно сообщений
 procedure Print(dt);
 
 implementation
