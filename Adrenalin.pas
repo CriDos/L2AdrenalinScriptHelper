@@ -1,4 +1,4 @@
-//Версия 1.0 by CriDos
+//Версия 1.0.1 by CriDos
 unit Adrenalin;
 
 interface
@@ -91,7 +91,7 @@ type
     stSellPackage         //продает пачкой
     );
 
-  //Тип воскрешения
+  //Тип воскрешения для TL2Control.GoHome
   TRestartType = (
     rtTown,     //в город
     rtClanHoll, //в клан хол
@@ -100,7 +100,7 @@ type
     rtFlags     //к флагу
     );
 
-  //Тип сообщения
+  //Тип сообщения для ChatMessage.Type
   TMessageType = (
     mtSystem,  //системное
     mtAll,     //общий чат
@@ -836,6 +836,7 @@ type
 type
   TShMem = array[1..1000] of integer;
 
+//!!! Глобальные объекты !!!
 var
   //Глобальный массив, доступный всем аккаунтам
   ShMem: TShMem;
@@ -867,6 +868,8 @@ var
   Inventory: TInventory;
   //Буфер, хранящий последнюю информацию о чате
   ChatMessage: TChatMessage;
+
+//!!! Глобальные функции/процедуры !!!
 
 //Задержка\пауза на указанное время
 function Delay(ms: cardinal): boolean;
@@ -905,7 +908,3 @@ function HexToMem(const Hex: string): ansistring; overload;
 //Вывод информации в консоль
 procedure Print(dt);
 
-implementation
-
-begin
-end.
