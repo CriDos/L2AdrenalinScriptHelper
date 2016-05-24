@@ -1,4 +1,4 @@
-//Версия 1.0.1 by CriDos
+//Версия 1.0.2 by CriDos
 unit Adrenalin;
 
 interface
