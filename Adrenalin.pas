@@ -1,4 +1,4 @@
-//Версия 1.0.4 by CriDos
+//Версия 1.0.5 by CriDos
 unit Adrenalin;
 
 interface
@@ -548,9 +548,10 @@ type
   // Класс управления игровыми действиями, доступен по имени Engine. Можно управлять другим окном с помощью GetControl
   TL2Control = class
   public
-    // Двигаться в указанную точку \ к указанному объекту
-    function MoveTo(X, Y, Z: integer; const TimeOut: integer = 8000): boolean; overload;   // Двигаться в точку
-    function MoveTo(Obj: TL2Spawn; Dist: integer): boolean; overload;   // Подойти к объекту
+    // Двигаться в точку
+    function MoveTo(X, Y, Z: integer; const TimeOut: integer = 8000): boolean; overload;
+    // Подойти к объекту
+    function MoveTo(Obj: TL2Spawn; Dist: integer): boolean; overload;
     // Двигаться в указанную точку без ожидания результата
     function DMoveTo(x, y, z: integer): boolean;
     // Подойти к выбранной цели на указанную дистанцию
