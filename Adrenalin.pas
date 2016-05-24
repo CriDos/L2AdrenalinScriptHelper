@@ -1,4 +1,4 @@
-//Версия 1.0.2 by CriDos
+//Версия 1.0.3 by CriDos
 unit Adrenalin;
 
 interface
@@ -229,7 +229,7 @@ type
     property Items: TL2AucItem;
   end;
 
-  // Класс умения, которое кастуются в данный момент
+  // Класс умения, которое кастуется в данный момент
   TL2Cast = class(TL2Effect);
 
   // Класс игровых бафов
