@@ -908,3 +908,7 @@ function HexToMem(const Hex: string): ansistring; overload;
 //Вывод информации в консоль
 procedure Print(dt);
 
+implementation
+
+begin
+end.
