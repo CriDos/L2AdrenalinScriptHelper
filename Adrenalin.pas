@@ -1,4 +1,4 @@
-//Версия 1.0.5 by CriDos
+//Версия 1.0.6 by CriDos
 unit Adrenalin;
 
 interface
@@ -600,9 +600,10 @@ type
     procedure Ignore(Obj: TL2Spawn);
     // Очищает список игнора
     procedure ClearIgnore;
-    // Проверяет, находится ли объект\точка в заданной зоне
-    function InZone(Obj: TL2Spawn): boolean; overload;   // Объект находится в зоне?
-    function InZone(X, Y, Z: integer): boolean; overload;   // Точка находится в зоне?
+    // Объект находится в зоне?
+    function InZone(Obj: TL2Spawn): boolean; overload;
+    // Точка находится в зоне?
+    function InZone(X, Y, Z: integer): boolean; overload;
     // Мигает окном на панели задач
     function BlinkWindow(GameWindow: boolean): boolean;
     // Получить HWND окна с ботом
