@@ -1,4 +1,4 @@
-//Версия 1.1.0 by CriDos
+//Версия 1.1.1 by CriDos
 unit Adrenalin;
 
 {$mode Delphi}{$H+}
@@ -952,7 +952,7 @@ function HexToMem(const {%H-}Hex: string; var {%H-}Buf): cardinal; overload;
 //Преобразует Hex строку в память
 function HexToMem(const {%H-}Hex: string): ansistring; overload;
 //Вывод информации в окно сообщений
-procedure Print(const {%H-}msg: Variant);
+procedure Print(const {%H-}msg: variant);
 
 implementation
 
@@ -2352,9 +2352,9 @@ begin
   Result := '';
 end;
 
-procedure Print(const msg: Variant);
+procedure Print(const msg: variant);
 begin
-
+  NOP;
 end;
 
 begin
