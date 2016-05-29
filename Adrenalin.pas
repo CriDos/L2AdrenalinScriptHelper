@@ -1,4 +1,4 @@
-//Версия 1.1.1 by CriDos
+//Версия 1.1.2 by CriDos
 unit Adrenalin;
 
 {$mode Delphi}{$H+}
@@ -13,14 +13,14 @@ type
   TShMem = array[1..1000] of integer;
 
 type
-  // Состояния игры
+  //Состояния игры
   TL2Status = (
     lsOff,    //Отключен
     lsOnline, //Онлайн
     lsOffline //Оффлайн
     );
 
-  // Классы объектов
+  //Классы объектов
   TL2Class = (
     lcError, //ошибка
     lcDrop,  //дроп
@@ -118,268 +118,269 @@ type
     );
 
 type
-  // Базовый класс всех игровых объектов
+  //Базовый класс всех игровых объектов
   TL2Object = class
   private
+    //ID объекта
     GetID: cardinal;
-    // Имя объекта
+    //Имя объекта
     GetName: string;
-    // Уникальный идентификатор для любого объекта в игре
+    //Уникальный идентификатор для любого объекта в игре
     GetOID: cardinal;
-    // Проверка объекта на существование в игре (актуальность)
+    //Проверка объекта на существование в игре (актуальность)
     GetValid: boolean;
-    // Узнать класс к которому относится данный объект
+    //Узнать класс к которому относится данный объект
     GetL2Class: TL2Class;
 
   public
-    // ID объекта
+    //ID объекта
     property ID: cardinal read GetID;
-    // Имя объекта
+    //Имя объекта
     property Name: string read GetName;
-    // Уникальный идентификатор для любого объекта в игре
+    //Уникальный идентификатор для любого объекта в игре
     property OID: cardinal read GetOID;
-    // Проверка объекта на существование в игре (актуальность)
+    //Проверка объекта на существование в игре (актуальность)
     property Valid: boolean read GetValid;
-    // Узнать класс к которому относится данный объект
+    //Узнать класс к которому относится данный объект
     property L2Class: TL2Class read GetL2Class;
-    // Назначить объекту пользовательскую переменную
+    //Назначить объекту пользовательскую переменную
     procedure SetVar({%H-}Value: cardinal);
-    // Получить значение пользовательской переменной
+    //Получить значение пользовательской переменной
     function GetVar: cardinal;
   end;
 
-  // Класс игровых эффектов
+  //Класс игровых эффектов
   TL2Effect = class(TL2Object)
   public
-    // Уровень скила \ бафа
+    //Уровень скила \ бафа
     function Level: cardinal;
-    // Время до окончания действия (для эффектов) \ время отката умения (для скилов)
+    //Время до окончания действия (для эффектов) \ время отката умения (для скилов)
     function EndTime: cardinal;
   end;
 
-  // Класс игровых предметов
+  //Класс игровых предметов
   TL2Item = class(TL2Effect)
   public
-    // Количество предметов (если стопка)
+    //Количество предметов (если стопка)
     function Count: int64;
-    // Одета на нас вещь или нет
+    //Одета на нас вещь или нет
     function Equipped: boolean;
-    // Уровень заточки предмета
+    //Уровень заточки предмета
     function EnchantLevel: word;
-    // Тип предмета (0 оружие; 1 броня; 2 бижа; 5 ресурсы и все остальное)
+    //Тип предмета (0 оружие; 1 броня; 2 бижа; 5 ресурсы и все остальное)
     function ItemType: cardinal;
-    // Грейд предмета
+    //Грейд предмета
     function Grade: cardinal;
-    // Название грейда предмета ('NG', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84', 'R', 'R95', 'R99')
+    //Название грейда предмета ('NG', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84', 'R', 'R95', 'R99')
     function GradeName: string;
   end;
 
-  // Родительский класс для всех списков в боте
+  //Родительский класс для всех списков в боте
   TL2List = class
   public
-    // Поиск объекта в списке по ID. Если объект найден, он помещается в переменную Obj
+    //Поиск объекта в списке по ID. Если объект найден, он помещается в переменную Obj
     function ByID({%H-}ID: cardinal; var {%H-}Obj): boolean;
-    // Поиск объекта в списке по OID. Если объект найден, он помещается в переменную Obj
+    //Поиск объекта в списке по OID. Если объект найден, он помещается в переменную Obj
     function ByOID({%H-}OID: cardinal; var {%H-}Obj): boolean;
-    // Поиск объекта в списке по имени. Если объект найден, он помещается в переменную Obj
+    //Поиск объекта в списке по имени. Если объект найден, он помещается в переменную Obj
     function ByName(const {%H-}Name: string; var {%H-}Obj): boolean;
-    // Количество объектов в списке
+    //Количество объектов в списке
     function Count: integer;
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Object;
   end;
 
   //Класс для управления списком айтемов
   TItemList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Item; overload;
   end;
 
-  // Класс описывающий наши инвентари
+  //Класс описывающий наши инвентари
   TInventory = class
   public
-    // Инветарь нашего пета
+    //Инветарь нашего пета
     function Pet: TItemList;
-    // Инветарь нашего персонажа
+    //Инветарь нашего персонажа
     function User: TItemList;
-    // Инветарь нашего персонажа (квестовый)
+    //Инветарь нашего персонажа (квестовый)
     function Quest: TItemList;
   end;
 
-  // Класс игровых предметов с аукциона
+  //Класс игровых предметов с аукциона
   TL2AucItem = class(TL2Item)
   public
-    // Тип лота
+    //Тип лота
     function LotType: cardinal;
-    // Ник продавца
+    //Ник продавца
     function Seller: string;
-    // Цена лота за которую можно выкупить предмет
+    //Цена лота за которую можно выкупить предмет
     function Price: int64;
-    // Время, на которое выставлен предмет
+    //Время, на которое выставлен предмет
     function Days: cardinal;
-    // Время до завершения торгов в секундах
+    //Время до завершения торгов в секундах
     function EndTime: cardinal;
   end;
 
-  // Класс управления списком аукционов
+  //Класс управления списком аукционов
   TAuctionList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2AucItem; overload;
   end;
 
-  // Класс для работы с аукционом
+  //Класс для работы с аукционом
   TL2Auction = class(TL2List)
   private
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     GetItems: TL2AucItem;
   public
-    // Формирует поисковый запрос. Результат помещается в объект Auction
+    //Формирует поисковый запрос. Результат помещается в объект Auction
     function Search(const {%H-}Name: string; {%H-}Grade: integer = -1; {%H-}PageID: integer = 0): boolean;
-    // Выставить предмет на продажу
+    //Выставить предмет на продажу
     function SellItem({%H-}_Item: TL2Item; {%H-}_Count, {%H-}_Price, {%H-}_Days: cardinal; {%H-}_CustomName: string = ''): boolean;
-    // Купить предмет с аукциона
+    //Купить предмет с аукциона
     function BuyItem({%H-}Item: TL2AucItem): boolean;
-    // Получить список своих лотов продажи
+    //Получить список своих лотов продажи
     function GetMySales: boolean;
-    // Снять предмет с продажи
+    //Снять предмет с продажи
     function CancelItem({%H-}Item: TL2AucItem): boolean;
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     property Items: TL2AucItem read GetItems;
   end;
 
-  // Класс умения, которое кастуется в данный момент
+  //Класс умения, которое кастуется в данный момент
   TL2Cast = class(TL2Effect);
 
-  // Класс игровых бафов
+  //Класс игровых бафов
   TL2Buff = class(TL2Effect);
 
-  // Класс управления списком игровых бафов
+  //Класс управления списком игровых бафов
   TBuffList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Buff; overload;
   end;
 
-  // Класс всех объектов имеющих координаты
+  //Класс всех объектов имеющих координаты
   TL2Spawn = class(TL2Object)
   public
-    // Координата X объекта
+    //Координата X объекта
     function X: integer;
-    // Координата Y объекта
+    //Координата Y объекта
     function Y: integer;
-    // Координата Z объекта
+    //Координата Z объекта
     function Z: integer;
-    // Возвращает дистанцию до заданной точки
+    //Возвращает дистанцию до заданной точки
     function DistTo({%H-}_X: integer; {%H-}_Y: integer; {%H-}_Z: integer): cardinal; overload;
-    // Возвращает дистанцию до объекта
+    //Возвращает дистанцию до объекта
     function DistTo({%H-}Obj: TL2Spawn): cardinal; overload;
-    // Время, которое прошло со времени появления объекта в игровом мире (в мс)
+    //Время, которое прошло со времени появления объекта в игровом мире (в мс)
     function SpawnTime: cardinal;
-    // Проверка объекта в радиусе Range от точки (x, y, z)
+    //Проверка объекта в радиусе Range от точки (x, y, z)
     function InRange({%H-}_X: integer; {%H-}_Y: integer; {%H-}_Z: integer; {%H-}_Range: cardinal; {%H-}_ZRange: cardinal = 250): boolean;
-    // Проверка на вхождение объекта в зону охоты
+    //Проверка на вхождение объекта в зону охоты
     function InZone: boolean;
   end;
 
-  // Класс управления списком игровых объектов
+  //Класс управления списком игровых объектов
   TSpawnList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Spawn; overload;
   end;
 
-  // Класс живых объектов в игре (игроки, NPC, петы и тд)
+  //Класс живых объектов в игре (игроки, NPC, петы и тд)
   TL2Live = class(TL2Spawn)
   public
-    // Текущее кол-во HP в процентах
+    //Текущее кол-во HP в процентах
     function HP: cardinal;
-    // Точное зачение HP
+    //Точное зачение HP
     function CurHP: cardinal;
-    // Максимальное количество HP
+    //Максимальное количество HP
     function MaxHP: cardinal;
-    // Текущее кол-во MP в процентах
+    //Текущее кол-во MP в процентах
     function MP: cardinal;
-    // Точное значение MP
+    //Точное значение MP
     function CurMP: cardinal;
-    // Максимальное количество MP
+    //Максимальное количество MP
     function MaxMP: cardinal;
-    // Опыт (численное значение)
+    //Опыт (численное значение)
     function Exp: int64;
-    // Опыт (в процентах)
+    //Опыт (в процентах)
     function Exp2: int64;
-    // Очки SP
+    //Очки SP
     function SP: cardinal;
-    // Является объект Player Killer'ом или нет
+    //Является объект Player Killer'ом или нет
     function PK: boolean;
-    // Находится объект в режиме PvP или нет
+    //Находится объект в режиме PvP или нет
     function PvP: boolean;
-    // Значение кармы (начиная с GoD может быть как отрицательной - PK, так и положительной - репутация)
+    //Значение кармы (начиная с GoD может быть как отрицательной - PK, так и положительной - репутация)
     function Karma: integer;
-    // Загруженность в процентах (доступна для нашего чара или петов)
+    //Загруженность в процентах (доступна для нашего чара или петов)
     function Load: cardinal;
-    // Уровень объекта
+    //Уровень объекта
     function Level: byte;
-    // Титул объекта
+    //Титул объекта
     function Title: string;
-    // Скорость передвижения
+    //Скорость передвижения
     function Speed: double;
-    // Объект движется пешком или бегом
+    //Объект движется пешком или бегом
     function Running: boolean;
-    // Сидит объект или нет
+    //Сидит объект или нет
     function Sitting: boolean;
-    // Рыбачит объект или нет
+    //Рыбачит объект или нет
     function Fishing: integer;
-    // Летит объект или нет
+    //Летит объект или нет
     function Fly: boolean;
-    // Жив или мертв объект
+    //Жив или мертв объект
     function Dead: boolean;
-    // Объект выронил предмет или нет (Dead должен быть True)
+    //Объект выронил предмет или нет (Dead должен быть True)
     function Dropped: boolean;
-    // К объекту можно применять Sweep(Присвоение) или нет? (Dead должен быть True)
+    //К объекту можно применять Sweep(Присвоение) или нет? (Dead должен быть True)
     function Sweepable: boolean;
-    // Название клана в котором находится объект
+    //Название клана в котором находится объект
     function Clan: string;
-    // ID клана в котором находится объект
+    //ID клана в котором находится объект
     function ClanID: cardinal;
-    // Название альянса в котором находится объект
+    //Название альянса в котором находится объект
     function Ally: string;
-    // ID альянса в котором находится объект
+    //ID альянса в котором находится объект
     function AllyID: cardinal;
-    // Свободно атакуемый объект или нет (без ctrl)
+    //Свободно атакуемый объект или нет (без ctrl)
     function Attackable: boolean;
-    // Уникальный идентификатор объекта который атакует
+    //Уникальный идентификатор объекта который атакует
     function AtkOID: cardinal;
-    // Время, которое объект атакуется
+    //Время, которое объект атакуется
     function AtkTime: cardinal;
-    // Время, которое объект атакуется пользователем
+    //Время, которое объект атакуется пользователем
     function MyAtkTime: cardinal;
-    // Находится объект в бою или нет
+    //Находится объект в бою или нет
     function InCombat: boolean;
-    // Список бафов объекта (доступны для нашего чара, пета и сопартийцев)
+    //Список бафов объекта (доступны для нашего чара, пета и сопартийцев)
     function Buffs: TBuffList;
-    // Скил который объект кастует в данный момент. Актуально если Cast.EndTime > 0, иначе объект в данный момент не кастует
+    //Скил который объект кастует в данный момент. Актуально если Cast.EndTime > 0, иначе объект в данный момент не кастует
     function Cast: TL2Cast;
-    // Цель объекта
+    //Цель объекта
     function Target: TL2Live;
-    // Является объект членом нашей группы или нет
+    //Является объект членом нашей группы или нет
     function IsMember: boolean;
-    // Для пвп серверов (красное синие подсвечивание), так же мобы "чемпионы"
+    //Для пвп серверов (красное синие подсвечивание), так же мобы "чемпионы"
     function Team: byte;
-    // Дистанция последней телепортации объекта
+    //Дистанция последней телепортации объекта
     function TeleportDist: cardinal;
-    // Время в мс, прошедшее с момента последней телепортации объекта
+    //Время в мс, прошедшее с момента последней телепортации объекта
     function TeleportTime: cardinal;
-    // ID получившийся из наборов флагов
+    //ID получившийся из наборов флагов
     function AbnormalID: cardinal;
-    // Список необычных состояний (для GOD+ хроник)
+    //Список необычных состояний (для GOD+ хроник)
     function Abnormals: TBuffList;
-    // Координата X, куда движется объект
+    //Координата X, куда движется объект
     function ToX: integer;
-    // Координата Y, куда движется объект
+    //Координата Y, куда движется объект
     function ToY: integer;
-    // Координата Z, куда движется объект
+    //Координата Z, куда движется объект
     function ToZ: integer;
   end;
 
@@ -388,497 +389,497 @@ type
   //Bitmap? клана
   TL2Clan = array of integer;
 
-  // Класс всех игроков
+  //Класс всех игроков
   TL2Char = class(TL2Live)
   private
     //GetClassInfo: string;
     //GetCrest: TL2Crest;
     //GetClan: TL2Clan;
   public
-    // CP в процентах
+    //CP в процентах
     function CP: cardinal;
-    // Точное значение CP
+    //Точное значение CP
     function CurCP: cardinal;
-    // Максимальное значение CP
+    //Максимальное значение CP
     function MaxCP: cardinal;
-    // Игрок является героем или нет?
+    //Игрок является героем или нет?
     function Hero: boolean;
-    // Игрок является дворянином или нет?
+    //Игрок является дворянином или нет?
     function Noble: boolean;
-    // Идентификатор класса игрока, информацию об этих значениях можно узнать на форуме
+    //Идентификатор класса игрока, информацию об этих значениях можно узнать на форуме
     function ClassID: cardinal;
-    // Идентификатор основного класса
+    //Идентификатор основного класса
     function MainClass: cardinal;
-    // Тип ездового животного
+    //Тип ездового животного
     function MountType: byte;
-    // Тип личной лавки
+    //Тип личной лавки
     function StoreType: byte;
-    // Пол игрока(0: мужской, 1: женский)
+    //Пол игрока(0: мужской, 1: женский)
     function Sex: cardinal;
-    // Раса игрока (0 - human, 1: elf, 2: dark elf, 3: orc, 4: dwarf, 5: kamael)
+    //Раса игрока (0 - human, 1: elf, 2: dark elf, 3: orc, 4: dwarf, 5: kamael)
     function Race: cardinal;
-    // Кол-во призванных кубиков
+    //Кол-во призванных кубиков
     function CubicCount: cardinal;
-    // Кол-во рекомендаций игрока
+    //Кол-во рекомендаций игрока
     function Recom: cardinal;
-    // Активен ли премиум аккаунт у игрока?
+    //Активен ли премиум аккаунт у игрока?
     function Premium: boolean;
-    // Тип игрового объекта
+    //Тип игрового объекта
     function L2Class: TL2Class;
     //Неизвестное свойство
     //property BaseClass: TBaseClass read GetClassInfo;
-    // Получаем изображение герба в формате Bitmap?
+    //Получаем изображение герба в формате Bitmap?
     //property Crest: TL2Crest read GetCrest;
-    // Получаем изображение клана в формате Bitmap?
+    //Получаем изображение клана в формате Bitmap?
     //property L2Clan: TL2Clan read GetClan;
   end;
 
-  // Класс управления списком игроков
+  //Класс управления списком игроков
   TCharList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Char; overload;
   end;
 
-  // Класс выпадающего с мобов дропа
+  //Класс выпадающего с мобов дропа
   TL2Drop = class(TL2Spawn)
   public
-    // Количество итемов в одной "кучке"
+    //Количество итемов в одной "кучке"
     function Count: int64;
-    // Дроп принадлежит нам или нет ("Нам" - если выбил наш чар, пет или члены пати)
+    //Дроп принадлежит нам или нет ("Нам" - если выбил наш чар, пет или члены пати)
     function IsMy: boolean;
-    // Стопковый предмет или не может стакаться
+    //Стопковый предмет или не может стакаться
     function Stackable: boolean;
   end;
 
-  // Класс управления списком дропа c мобов
+  //Класс управления списком дропа c мобов
   TDropList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Drop; overload;
   end;
 
-  // Класс NPC
+  //Класс NPC
   TL2Npc = class(TL2Live)
   public
-    // Является объект петом или нет
+    //Является объект петом или нет
     function IsPet: boolean;
-    // Тип пета (самон или пет)
+    //Тип пета (самон или пет)
     function PetType: cardinal;
   end;
 
-  // Класс управления списком NPC
+  //Класс управления списком NPC
   TNpcList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Npc; overload;
   end;
 
-  // Класс наших петов/самонов
+  //Класс наших петов/самонов
   TL2Pet = class(TL2Npc)
   public
-    // Голод питомца (еда) в процентах
+    //Голод питомца (еда) в процентах
     function Fed: cardinal;
   end;
 
-  // Класс управления списком игровых петов
+  //Класс управления списком игровых петов
   TPetList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Pet; overload;
   end;
 
-  // Класс скриптов, доступен по имени Script
+  //Класс скриптов, доступен по имени Script
   TL2Script = class
   public
-    // Остановка выполнения скрипта
+    //Остановка выполнения скрипта
     procedure Stop;
-    // Приостановка выполнения скрипта
+    //Приостановка выполнения скрипта
     procedure Pause;
-    // Приостановка всех потоков, кроме текущего
+    //Приостановка всех потоков, кроме текущего
     procedure Suspend;
-    // Восстановление работы всех потоков
+    //Восстановление работы всех потоков
     procedure Resume;
-    // Создание нового потока
+    //Создание нового потока
     procedure NewThread({%H-}Address: Pointer);
-    // Перезапуск текущего скрипта или запуск нового
+    //Перезапуск текущего скрипта или запуск нового
     function Replace(const {%H-}Name: string = ''): boolean;
-    // Путь к файлу скрипта
+    //Путь к файлу скрипта
     function Path: string;
-    // Вызов процедуры в основном потоке программы
+    //Вызов процедуры в основном потоке программы
     procedure MainProc({%H-}Proc: Pointer);
-    // Запуск плагина
+    //Запуск плагина
     function StartPlugin(const {%H-}PluginName: string; {%H-}PProc: Pointer; {%H-}ShowModal: boolean): boolean;
     //TODO Добавить описание
     function OnPluginProc({%H-}Code: cardinal; {%H-}p1: WideString): integer;
   end;
 
-  // Класс игровых умений
+  //Класс игровых умений
   TL2Skill = class(TL2Effect)
   public
-    // Доступен ли скил
+    //Доступен ли скил
     function Disabled: boolean;
-    // Проточен ли скил
+    //Проточен ли скил
     function Enchanted: boolean;
-    // Пассивный скил или нет
+    //Пассивный скил или нет
     function Passive: boolean;
   end;
 
-  // Класс управления списком игровых умений
+  //Класс управления списком игровых умений
   TSkillList = class(TL2List)
   public
-    // Позволяет обратиться к объекту в списке по индексу
+    //Позволяет обратиться к объекту в списке по индексу
     function Items({%H-}Index: integer): TL2Skill; overload;
   end;
 
-  // Класс нашего персонажа
+  //Класс нашего персонажа
   TL2User = class(TL2Char)
   public
-    // Может кристализовать предметы наш герой или нет?
+    //Может кристализовать предметы наш герой или нет?
     function CanCryst: boolean;
-    // Количество зарядок (для гладов \ тирантов)
+    //Количество зарядок (для гладов \ тирантов)
     function Charges: cardinal;
-    // Штраф от перевеса
+    //Штраф от перевеса
     function WeightPenalty: cardinal;
-    // Штраф за ношение оружия неподходящего грейда
+    //Штраф за ношение оружия неподходящего грейда
     function WeapPenalty: cardinal;
-    // Штраф за ношение брони неподходящего грейда
+    //Штраф за ношение брони неподходящего грейда
     function ArmorPenalty: cardinal;
-    // Штраф за смерть
+    //Штраф за смерть
     function DeathPenalty: cardinal;
-    // Количество душ (для камаэлей)
+    //Количество душ (для камаэлей)
     function Souls: cardinal;
   end;
 
-  // Класс описывающий наш склад
+  //Класс описывающий наш склад
   TL2WareHouse = class(TL2List)
   private
     GetWHType: word;
     GetAdena: int64;
   public
-    // Тип инвентаря
+    //Тип инвентаря
     property WHType: word read GetWHType;
-    // Количество адены на складе
+    //Количество адены на складе
     property Adena: int64 read GetAdena;
-    // Список предметов на нашем складе
+    //Список предметов на нашем складе
     function Items({%H-}Index: integer): TL2Item;
   end;
 
-  // Класс описывающий нашу группу
+  //Класс описывающий нашу группу
   TParty = class
   public
-    // Список петов в группе
+    //Список петов в группе
     function Pets: TNpcList;
-    // Список чаров в группе
+    //Список чаров в группе
     function Chars: TCharList;
-    // Тип распределения лута в группе
+    //Тип распределения лута в группе
     function LootType: TLootType;
-    // Лидер группы
+    //Лидер группы
     function Leader: TL2Char;
   end;
 
-  // Класс диалоговых окон с подтверждением
+  //Класс диалоговых окон с подтверждением
   TConfirmDlg = class
   public
-    // Идентификатор системного сообщения
+    //Идентификатор системного сообщения
     function MsgID: cardinal;
-    // Идентификатор
+    //Идентификатор
     function ReqID: cardinal;
-    // Ник отправителя запроса
+    //Ник отправителя запроса
     function Sender: string;
-    // Время до исчезновения диалога
+    //Время до исчезновения диалога
     function EndTime: cardinal;
-    // Актуален ли диалог?
+    //Актуален ли диалог?
     function Valid: boolean;
   end;
 
-  // Класс управления игровыми действиями, доступен по имени Engine. Можно управлять другим окном с помощью GetControl
+  //Класс управления игровыми действиями, доступен по имени Engine. Можно управлять другим окном с помощью GetControl
   TL2Control = class
   public
-    // Двигаться в точку
+    //Двигаться в точку
     function MoveTo({%H-}X, {%H-}Y, {%H-}Z: integer; const {%H-}TimeOut: integer = 8000): boolean; overload;
-    // Подойти к объекту
+    //Подойти к объекту
     function MoveTo({%H-}Obj: TL2Spawn; {%H-}Dist: integer): boolean; overload;
-    // Двигаться в указанную точку без ожидания результата
+    //Двигаться в указанную точку без ожидания результата
     function DMoveTo({%H-}x, {%H-}y, {%H-}z: integer): boolean;
-    // Подойти к выбранной цели на указанную дистанцию
+    //Подойти к выбранной цели на указанную дистанцию
     function MoveToTarget({%H-}Dist: integer = -100): boolean;
-    // Купить предмет с аукциона
+    //Купить предмет с аукциона
     function AuctionBuyItem({%H-}Item: TL2AucItem): boolean;
-    // Снять предмет с продажи
+    //Снять предмет с продажи
     function AuctionCancelItem({%H-}Item: TL2AucItem): boolean;
-    // Получить список своих лотов продажи
+    //Получить список своих лотов продажи
     function AuctionGetMySales: boolean;
-    // Формирует поисковый запрос. Результат помещается в объект Auction
+    //Формирует поисковый запрос. Результат помещается в объект Auction
     function AuctionSearch(const {%H-}Name: string; {%H-}Grade: integer = -1; {%H-}PageID: integer = 0): boolean;
-    // Выставить предмет на продажу
+    //Выставить предмет на продажу
     function AuctionSellItem({%H-}Item: TL2Item; {%H-}Count, {%H-}Price, {%H-}Days: cardinal; {%H-}CustomName: string = ''): boolean;
-    // Делает своей целью цель указанного игрока или NPC
+    //Делает своей целью цель указанного игрока или NPC
     function Assist(const {%H-}Name: string): boolean;
-    // Атака
+    //Атака
     function Attack({%H-}TimeOut: cardinal = 2000; {%H-}Ctrl: boolean = False): boolean;
-    // Включает/выключает автоматическое использование сосок (зарядов души\духа)
+    //Включает/выключает автоматическое использование сосок (зарядов души\духа)
     function AutoSoulShot(const {%H-}Name: string; {%H-}Active: boolean): boolean;
-    // Авто-подбор цели
+    //Авто-подбор цели
     function AutoTarget({%H-}Range: cardinal = 2000; {%H-}ZRange: cardinal = 300; {%H-}NotBusy: boolean = True): boolean;
-    // Поиск "врага" для заданного объекта в указанном радиусе (относительно объекта). Найденный "враг" будет записан в переменную Enemy.
+    //Поиск "врага" для заданного объекта в указанном радиусе (относительно объекта). Найденный "враг" будет записан в переменную Enemy.
     function FindEnemy(var {%H-}Enemy: TL2Live; {%H-}Obj: TL2Live; {%H-}Range: cardinal = 2000; {%H-}ZRange: cardinal = 300): boolean;
-    // Взять в таргет по имени
+    //Взять в таргет по имени
     function SetTarget(const {%H-}Name: string): boolean; overload;
-    // Взять в таргет по ID
+    //Взять в таргет по ID
     function SetTarget({%H-}ID: cardinal): boolean; overload;
-    // Взять в таргет объект Obj
+    //Взять в таргет объект Obj
     function SetTarget({%H-}Obj: TL2Live): boolean; overload;
-    // Сбрасывает таргет
+    //Сбрасывает таргет
     function CancelTarget: boolean;
-    // Подобирает указанный объект
+    //Подобирает указанный объект
     function PickUp({%H-}Obj: TL2Drop; {%H-}Pet: boolean = False): boolean; overload;
-    // Авто-подбор всего дропа в указанном радиусе
+    //Авто-подбор всего дропа в указанном радиусе
     function PickUp({%H-}Range: cardinal = 250; {%H-}ZRange: cardinal = 150; {%H-}OnlyMy: boolean = False; {%H-}Pet: boolean = False): integer; overload;
-    // Включить / отключить интерфеис
+    //Включить / отключить интерфеис
     function FaceControl({%H-}ID: integer; {%H-}Active: boolean): boolean;
-    // Загрузка конфига с указанным именем. По умолчанию из папки Settings, но можно указать полный путь.
+    //Загрузка конфига с указанным именем. По умолчанию из папки Settings, но можно указать полный путь.
     function LoadConfig(const {%H-}Name: string): boolean;
-    // Загрузка боевой зоны из файла
+    //Загрузка боевой зоны из файла
     function LoadZone(const {%H-}Name: string): boolean;
-    // Очистка всех зон на карте
+    //Очистка всех зон на карте
     procedure ClearZone;
-    // Добавляет объект в список игнгора. Методы AutoTarget и AutoPickup пропускают такие объекты
+    //Добавляет объект в список игнгора. Методы AutoTarget и AutoPickup пропускают такие объекты
     procedure Ignore({%H-}Obj: TL2Spawn);
-    // Очищает список игнора
+    //Очищает список игнора
     procedure ClearIgnore;
-    // Объект находится в зоне?
+    //Объект находится в зоне?
     function InZone({%H-}Obj: TL2Spawn): boolean; overload;
-    // Точка находится в зоне?
+    //Точка находится в зоне?
     function InZone({%H-}X, {%H-}Y, {%H-}Z: integer): boolean; overload;
-    // Мигает окном на панели задач
+    //Мигает окном на панели задач
     function BlinkWindow({%H-}GameWindow: boolean): boolean;
-    // Получить HWND окна с ботом
+    //Получить HWND окна с ботом
     function BotWindow: cardinal;
-    // Получить HWND окна с игрой
+    //Получить HWND окна с игрой
     function GameWindow: cardinal;
-    // Заходит на персонажа (должны находится на панели выбора персонажей)
+    //Заходит на персонажа (должны находится на панели выбора персонажей)
     function GameStart({%H-}CharIndex: integer = -1): boolean;
-    // Выходит на панель выбора персонажей (чар не должен находиться в режиме боя)
+    //Выходит на панель выбора персонажей (чар не должен находиться в режиме боя)
     function Restart: boolean;
-    // Закрывает клиент игры Lineage II
+    //Закрывает клиент игры Lineage II
     function GameClose: boolean;
-    // Фукнция для отправки сообщений игровому окну. Используется для нажатия клавиш клавиатуры / мышки.
+    //Фукнция для отправки сообщений игровому окну. Используется для нажатия клавиш клавиатуры / мышки.
     function PostMessage({%H-}Msg: cardinal; {%H-}wParam, {%H-}lParam: integer): integer;
-    // Фукнция для отправки сообщений игровому окну. Используется для нажатия клавиш клавиатуры / мышки.
+    //Фукнция для отправки сообщений игровому окну. Используется для нажатия клавиш клавиатуры / мышки.
     function SendMessage({%H-}Msg: cardinal; {%H-}wParam, {%H-}lParam: integer): integer;
-    // Развернуть / свернуть окно игры
+    //Развернуть / свернуть окно игры
     function SetGameWindow({%H-}Visible: boolean): boolean;
-    // Задает величину отступа от краев карты
+    //Задает величину отступа от краев карты
     procedure SetMapKeepDist({%H-}Value: integer);
-    // Воскрешение персонажа
+    //Воскрешение персонажа
     function GoHome({%H-}ResType: TRestartType = rtTown): boolean;
-    // Текущее игровое время
+    //Текущее игровое время
     function GameTime: cardinal;
-    // Текущее время сервера
+    //Текущее время сервера
     function ServerTime: cardinal;
-    // Текущий статус аккаунта
+    //Текущий статус аккаунта
     function Status: TL2Status;
-    // Ожидание события или группы событий
+    //Ожидание события или группы событий
     function WaitAction({%H-}Actions: TL2Actions; var {%H-}P1; var {%H-}P2; {%H-}TimeOut: cardinal = High(cardinal)): TL2Actions;
-    // Напечатать текст (Нажать Enter > написать Txt > нажать Enter)
+    //Напечатать текст (Нажать Enter > написать Txt > нажать Enter)
     function EnterText(const {%H-}Txt: string): boolean;
-    // Написать сообщение в чат
+    //Написать сообщение в чат
     function Say(const {%H-}Text: string; {%H-}ChatType: cardinal = 0; const {%H-}Nick: string = ''): boolean;
-    // Нажить клавишу по названию
+    //Нажить клавишу по названию
     function UseKey(const {%H-}Key: string; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
-    // Нажать клавишу, используя код кнопки
+    //Нажать клавишу, используя код кнопки
     function UseKey({%H-}Key: word; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
-    // Вызов функции в скрипте другого аккаунта. Вызываемая функция должна иметь вид OnEntry
+    //Вызов функции в скрипте другого аккаунта. Вызываемая функция должна иметь вид OnEntry
     function Entry(var {%H-}Param): boolean;
-    // Расчитывает путь между двумя точками с учетом нарисованной зоны и помещает точки в PathList подряд
+    //Расчитывает путь между двумя точками с учетом нарисованной зоны и помещает точки в PathList подряд
     function FindPath({%H-}StartX, {%H-}StartY, {%H-}EndX, {%H-}EndY: integer; {%H-}PathList: TList): boolean;
-    // Написать системное сообщение в окне бота, различного цвета (TColor - информация о цветах)
+    //Написать системное сообщение в окне бота, различного цвета (TColor - информация о цветах)
     procedure Msg({%H-}Who, {%H-}What: string; {%H-}Color: integer);
-    // Проверка объекта на "занятость" другими игроками
+    //Проверка объекта на "занятость" другими игроками
     function IsBusy({%H-}Obj: TL2Npc): boolean;
-    // Проверяет, день в игре или ночь? (день - true, ночь - false)
+    //Проверяет, день в игре или ночь? (день - true, ночь - false)
     function IsDay: boolean;
-    // Покинуть наставника
+    //Покинуть наставника
     function KickMentor: boolean;
-    // Узнать ник наставника
+    //Узнать ник наставника
     function GetMentor: string;
-    // Приглаить в группу игрока с указанным именем
+    //Приглаить в группу игрока с указанным именем
     function InviteParty(const {%H-}Name: string; {%H-}Loot: TLootType = ldLooter): boolean;
-    // Исключает игрока с указанным именем из группы
+    //Исключает игрока с указанным именем из группы
     function DismissParty(const {%H-}Name: string): boolean;
-    // Ответить на приглашение в группу
+    //Ответить на приглашение в группу
     function JoinParty({%H-}Join: boolean): boolean;
-    // Выйти из группы
+    //Выйти из группы
     function LeaveParty: boolean;
-    // Передает лидерство в группе указанному игроку (Ваш персонаж должен быть лидером группы)
+    //Передает лидерство в группе указанному игроку (Ваш персонаж должен быть лидером группы)
     function SetPartyLeader(const {%H-}Name: string): boolean;
-    // Отозывает пета (если есть)
+    //Отозывает пета (если есть)
     function DismissPet: boolean;
-    // Отозывает самона (если есть)
+    //Отозывает самона (если есть)
     function DismissSum: boolean;
-    // Начать диалог с NPC
+    //Начать диалог с NPC
     function DlgOpen: boolean;
-    // Выбирает при диалоге строку Txt
+    //Выбирает при диалоге строку Txt
     function DlgSel(const {%H-}Txt: string; const {%H-}TimeOut: integer = 1000): boolean; overload;
-    // Выбирает при диалоге строку с порядковым номером Index
+    //Выбирает при диалоге строку с порядковым номером Index
     function DlgSel({%H-}Index: integer; const {%H-}TimeOut: integer = 1000): boolean; overload;
-    // Содержит полный текст текущего диалога
+    //Содержит полный текст текущего диалога
     function DlgText: string;
-    // Отвечает на запросы Да/Нет
+    //Отвечает на запросы Да/Нет
     function ConfirmDialog({%H-}Accept: boolean): boolean;
-    // Получить диалог (объект класса TConfirmDlg)
+    //Получить диалог (объект класса TConfirmDlg)
     function ConfirmDlg: TConfirmDlg;
-    // Отправить на сервер Bypass
+    //Отправить на сервер Bypass
     function BypassToServer(const {%H-}S: string): boolean;
-    // Автопринятие наставничества
+    //Автопринятие наставничества
     procedure AutoAcceptMentors({%H-}Names: string);
-    // Автопринятие клана
+    //Автопринятие клана
     procedure AutoAcceptClan({%H-}Names: string);
-    // Автопринятие командного канала
+    //Автопринятие командного канала
     procedure AutoAcceptCC({%H-}Names: string);
-    // Использование скила по названию
+    //Использование скила по названию
     function UseSkill(const {%H-}Name: string; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
-    // Использование скила по ID
+    //Использование скила по ID
     function UseSkill({%H-}ID: cardinal; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
-    // Использовать скил без проверки на откат / количество MP
+    //Использовать скил без проверки на откат / количество MP
     function DUseSkill({%H-}ID: cardinal; {%H-}Ctrl, {%H-}Shift: boolean): boolean;
-    // Прервать чтение заклинания
+    //Прервать чтение заклинания
     function StopCasting: boolean;
-    // Снимает с нашего персонажа баф с указанным названием
+    //Снимает с нашего персонажа баф с указанным названием
     function Dispel(const {%H-}Name: string): boolean;
-    // Учит скил по ID (в HighFive и ниже должны находиться возле тренера)
+    //Учит скил по ID (в HighFive и ниже должны находиться возле тренера)
     function LearnSkill({%H-}ID: cardinal): boolean;
-    // Открывает окно умений (для Interlude серверов)
+    //Открывает окно умений (для Interlude серверов)
     function UpdateSkillList: boolean;
-    // Использовать умение на указанные координаты
+    //Использовать умение на указанные координаты
     function UseSkillGround({%H-}ID: cardinal; {%H-}X, {%H-}Y, {%H-}Z: integer; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean;
-    // Обмен вещей у NPC
+    //Обмен вещей у NPC
     function NpcExchange({%H-}ID: cardinal; {%H-}Count: cardinal): boolean;
-    // Покупка или продажа предметов торговцу
+    //Покупка или продажа предметов торговцу
     function NpcTrade({%H-}Sell: boolean; {%H-}Items: array of cardinal): boolean;
-    // Процент налога в городе
+    //Процент налога в городе
     function CastleTax({%H-}TownID: cardinal): integer;
-    // Открывает квестовый "знак вопроса" (требуется для некоторых квестов)
+    //Открывает квестовый "знак вопроса" (требуется для некоторых квестов)
     function OpenQuestion: boolean;
-    // Проверяет выполнен указанный шаг квеста или нет
+    //Проверяет выполнен указанный шаг квеста или нет
     function QuestStatus({%H-}QuestID: cardinal; {%H-}Step: integer): boolean;
-    // Отменяет квест по указанному ID
+    //Отменяет квест по указанному ID
     function CancelQuest({%H-}ID: integer): boolean;
-    // Получить ежедневную награду
+    //Получить ежедневную награду
     function GetDailyItems: boolean;
-    // Получает список игроков из другого аккаунта
+    //Получает список игроков из другого аккаунта
     function GetCharList: TCharList;
-    // Получает список дропа из другого аккаунта
+    //Получает список дропа из другого аккаунта
     function GetDropList: TDropList;
-    // Получает список инвентаря из другого аккаунта
+    //Получает список инвентаря из другого аккаунта
     function GetInventory: TInventory;
-    // Получает список NPC из другого аккаунта
+    //Получает список NPC из другого аккаунта
     function GetNpcList: TNpcList;
-    // Получает список группы из другого аккаунта
+    //Получает список группы из другого аккаунта
     function GetParty: TParty;
-    // Получает список петов из другого аккаунта
+    //Получает список петов из другого аккаунта
     function GetPetList: TPetList;
-    // Получает список умений из другого аккаунта
+    //Получает список умений из другого аккаунта
     function GetSkillList: TSkillList;
-    // Получает объекта User (TL2User) из другого аккаунта
+    //Получает объекта User (TL2User) из другого аккаунта
     function GetUser: TL2User;
-    // Узнать статус кнопки интерфейса: включен\выключен? (FaceControl)
+    //Узнать статус кнопки интерфейса: включен\выключен? (FaceControl)
     function GetFaceState({%H-}ID: integer): boolean;
-    // Использовать предмет по названию
+    //Использовать предмет по названию
     function UseItem(const {%H-}Name: string; {%H-}Pet: boolean = False): boolean; overload;
-    // Использовать предмет по идентификатору
+    //Использовать предмет по идентификатору
     function UseItem({%H-}ID: cardinal; {%H-}Pet: boolean = False): boolean; overload;
-    // Использовать конкретный предмет
+    //Использовать конкретный предмет
     function UseItem({%H-}Obj: TL2Item; {%H-}Pet: boolean = False): boolean; overload;
-    // Работа со складом
+    //Работа со складом
     function LoadItems({%H-}ToWH: boolean; {%H-}Items: array of cardinal): boolean;
-    // Отдать пету / забрать у пета указанный предмет
+    //Отдать пету / забрать у пета указанный предмет
     function MoveItem(const {%H-}Name: string; {%H-}Count: cardinal; {%H-}ToPet: boolean): boolean;
-    // Проверка экипировки
+    //Проверка экипировки
     function Equipped(const {%H-}Name: string): integer;
-    // Скрафтить предмет
+    //Скрафтить предмет
     function MakeItem({%H-}Index: cardinal): boolean;
-    // Разбить предмет на кристалы
+    //Разбить предмет на кристалы
     function CrystalItem({%H-}ID: cardinal): boolean;
-    // Удалить предмет по названию
+    //Удалить предмет по названию
     function DestroyItem(const {%H-}Name: string; {%H-}Count: cardinal): boolean; overload;
-    // Удалить предмет по ID
+    //Удалить предмет по ID
     function DestroyItem({%H-}ID: integer; {%H-}Count: cardinal): boolean; overload;
-    // Использование игровых действий
+    //Использование игровых действий
     function UseAction({%H-}ID: cardinal; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean;
-    // Сесть
+    //Сесть
     function Sit: boolean;
-    // Встать
+    //Встать
     function Stand: boolean;
-    // Сделать Unstuck
+    //Сделать Unstuck
     function Unstuck: boolean;
-    // Создать комнату группы (подбор группы)
+    //Создать комнату группы (подбор группы)
     function CreateRoom({%H-}Text: string; {%H-}LevelStart, {%H-}LevelEnd: integer): boolean;
-    // Закрыть комнату группы
+    //Закрыть комнату группы
     function CloseRoom: boolean;
-    // Открыть личную лавку (покупка \ продажа \ крафт)
+    //Открыть личную лавку (покупка \ продажа \ крафт)
     function OpenPrivateStore({%H-}PriceList: array of cardinal; {%H-}StoreType: byte; {%H-}StoreMsg: string): boolean;
-    // Отправка почты
+    //Отправка почты
     function SendMail(const {%H-}Recipient: string; const {%H-}Theme: string; const {%H-}Content: string; {%H-}Items: array of cardinal; {%H-}Price: cardinal = 0): boolean;
-    // Принять почту
+    //Принять почту
     function GetMailItems({%H-}MaxLoad: cardinal = 65; {%H-}MaxCount: cardinal = 1000): boolean;
-    // Очистить почтовый ящик
+    //Очистить почтовый ящик
     function ClearMail: boolean;
   end;
 
-  // Класс точек GPS баз
+  //Класс точек GPS баз
   TGpsPoint = class
   private
-    // Координата X
+    //Координата X
     GetX: integer;
-    // Координата Y
+    //Координата Y
     GetZ: integer;
-    // Координата Z
+    //Координата Z
     GetName: string;
   public
-    // Координата X
+    //Координата X
     property X: integer read GetX;
-    // Координата Y
+    //Координата Y
     property Z: integer read GetZ;
-    // Координата Z
+    //Координата Z
     property Name: string read GetName;
   end;
 
-  // Класс навигации персонажа
+  //Класс навигации персонажа
   TGps = class
   public
-    // Общее количество точек
+    //Общее количество точек
     function Count: integer;
-    // Загрузка базы Gps, возвращает кол-во загруженных точек
+    //Загрузка базы Gps, возвращает кол-во загруженных точек
     function LoadBase(const {%H-}FilePath: string): integer;
-    // Прокладывает маршрут от точки (X1, Y1, Z1) до (X2, Y2, Z2) и записывает точки этого маршрута в GPS.Items. Возвращает длину проложенного маршрута
+    //Прокладывает маршрут от точки (X1, Y1, Z1) до (X2, Y2, Z2) и записывает точки этого маршрута в GPS.Items. Возвращает длину проложенного маршрута
     function GetPath({%H-}X1, {%H-}Y1, {%H-}Z1, {%H-}X2, {%H-}Y2, {%H-}Z2: single): integer;
-    // Прокладывает маршрут до точки по ее названию и записывает точки этого маршрута в GPS.Items. Возвращает длину проложенного маршрута
+    //Прокладывает маршрут до точки по ее названию и записывает точки этого маршрута в GPS.Items. Возвращает длину проложенного маршрута
     function GetPathByName({%H-}X1, {%H-}Y1, {%H-}Z1: single; {%H-}PointName: string): integer;
-    // Возвращает точку с указанным индексом
+    //Возвращает точку с указанным индексом
     function Items({%H-}Index: integer): TGpsPoint;
   end;
 
-  // Класс внутриигровых сообщений
+  //Класс внутриигровых сообщений
   TChatMessage = class
   private
-    // Сообщение не прочитано нами?
+    //Сообщение не прочитано нами?
     GetUnread: boolean;
-    // Ник отправителя
+    //Ник отправителя
     GetSender: string;
-    // Текст сообщения
+    //Текст сообщения
     GetText: string;
-    // Тип сообщения
+    //Тип сообщения
     GetChatType: TMessageType;
   public
-    // Сообщение не прочитано нами?
+    //Сообщение не прочитано нами?
     property Unread: boolean read GetUnread;
-    // Ник отправителя
+    //Ник отправителя
     property Sender: string read GetSender;
-    // Текст сообщения
+    //Текст сообщения
     property Text: string read GetText;
-    // Тип сообщения
+    //Тип сообщения
     property ChatType: TMessageType read GetChatType;
   end;
 
@@ -2358,4 +2359,18 @@ begin
 end;
 
 begin
+  Script := TL2Script.Create();
+  Engine := TL2Control.Create();
+  User := TL2User.Create();
+  Auction := TAuctionList.Create();
+  SpawnList := TSpawnList.Create();
+  NpcList := TNpcList.Create();
+  PetList := TPetList.Create();
+  CharList := TCharList.Create();
+  DropList := TDropList.Create();
+  SkillList := TSkillList.Create();
+  ItemList := TItemList.Create();
+  WareHouse := TItemList.Create();
+  Inventory := TInventory.Create();
+  ChatMessage := TChatMessage.Create();
 end.
