@@ -1,4 +1,4 @@
-//Версия 1.1.2 by CriDos
+//Версия 1.1.3 by CriDos
 unit Adrenalin;
 
 {$mode Delphi}{$H+}
