@@ -1,4 +1,4 @@
-//Версия 1.1.3 by CriDos
+//Версия 1.1.4 by CriDos
 unit Adrenalin;
 
 {$mode Delphi}{$H+}
@@ -928,11 +928,17 @@ type
     GetRequirements: boolean;
 
   public
+    //Идентификатор
     property ID: cardinal read GetID;
+    //Название
     property Name: string read GetName;
+    //Уровень изучаемого умения
     property Level: cardinal read GetLevel;
+    //Количество SP, необходимое для изучения
     property SpCost: cardinal read GetSpCost;
+    //Требуемый уровень
     property NeedLevel: cardinal read GetNeedLevel;
+    //Для изучения необходимы предметы
     property Requirements: boolean read GetRequirements;
   end;
 
