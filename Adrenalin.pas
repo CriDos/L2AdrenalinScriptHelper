@@ -237,9 +237,12 @@ type
     GetItems: TL2AucItem;
   public
     //Формирует поисковый запрос. Результат помещается в объект Auction
-    function Search(const {%H-}Name: string; {%H-}Grade: integer = -1; {%H-}PageID: integer = 0): boolean;
+    function Search(const {%H-}Name: string; {%H-}Grade: integer = -1;
+    {%H-}PageID: integer = 0): boolean;
     //Выставить предмет на продажу
-    function SellItem({%H-}_Item: TL2Item; {%H-}_Count, {%H-}_Price, {%H-}_Days: cardinal; {%H-}_CustomName: string = ''): boolean;
+    function SellItem({%H-}_Item: TL2Item;
+    {%H-}_Count, {%H-}_Price, {%H-}_Days: cardinal;
+    {%H-}_CustomName: string = ''): boolean;
     //Купить предмет с аукциона
     function BuyItem({%H-}Item: TL2AucItem): boolean;
     //Получить список своих лотов продажи
@@ -273,13 +276,15 @@ type
     //Координата Z объекта
     function Z: integer;
     //Возвращает дистанцию до заданной точки
-    function DistTo({%H-}_X: integer; {%H-}_Y: integer; {%H-}_Z: integer): cardinal; overload;
+    function DistTo({%H-}_X: integer; {%H-}_Y: integer; {%H-}_Z: integer): cardinal;
+      overload;
     //Возвращает дистанцию до объекта
     function DistTo({%H-}Obj: TL2Spawn): cardinal; overload;
     //Время, которое прошло со времени появления объекта в игровом мире (в мс)
     function SpawnTime: cardinal;
     //Проверка объекта в радиусе Range от точки (x, y, z)
-    function InRange({%H-}_X: integer; {%H-}_Y: integer; {%H-}_Z: integer; {%H-}_Range: cardinal; {%H-}_ZRange: cardinal = 250): boolean;
+    function InRange({%H-}_X: integer; {%H-}_Y: integer; {%H-}_Z: integer;
+    {%H-}_Range: cardinal; {%H-}_ZRange: cardinal = 250): boolean;
     //Проверка на вхождение объекта в зону охоты
     function InZone: boolean;
   end;
@@ -509,7 +514,8 @@ type
     //Вызов процедуры в основном потоке программы
     procedure MainProc({%H-}Proc: Pointer);
     //Запуск плагина
-    function StartPlugin(const {%H-}PluginName: string; {%H-}PProc: Pointer; {%H-}ShowModal: boolean): boolean;
+    function StartPlugin(const {%H-}PluginName: string; {%H-}PProc: Pointer;
+    {%H-}ShowModal: boolean): boolean;
     //TODO Добавить описание
     function OnPluginProc({%H-}Code: cardinal; {%H-}p1: WideString): integer;
   end;
@@ -597,7 +603,8 @@ type
   TL2Control = class
   public
     //Двигаться в точку
-    function MoveTo({%H-}X, {%H-}Y, {%H-}Z: integer; const {%H-}TimeOut: integer = 8000): boolean; overload;
+    function MoveTo({%H-}X, {%H-}Y, {%H-}Z: integer;
+      const {%H-}TimeOut: integer = 8000): boolean; overload;
     //Подойти к объекту
     function MoveTo({%H-}Obj: TL2Spawn; {%H-}Dist: integer): boolean; overload;
     //Двигаться в указанную точку без ожидания результата
@@ -611,9 +618,11 @@ type
     //Получить список своих лотов продажи
     function AuctionGetMySales: boolean;
     //Формирует поисковый запрос. Результат помещается в объект Auction
-    function AuctionSearch(const {%H-}Name: string; {%H-}Grade: integer = -1; {%H-}PageID: integer = 0): boolean;
+    function AuctionSearch(const {%H-}Name: string; {%H-}Grade: integer = -1;
+    {%H-}PageID: integer = 0): boolean;
     //Выставить предмет на продажу
-    function AuctionSellItem({%H-}Item: TL2Item; {%H-}Count, {%H-}Price, {%H-}Days: cardinal; {%H-}CustomName: string = ''): boolean;
+    function AuctionSellItem({%H-}Item: TL2Item;
+    {%H-}Count, {%H-}Price, {%H-}Days: cardinal; {%H-}CustomName: string = ''): boolean;
     //Делает своей целью цель указанного игрока или NPC
     function Assist(const {%H-}Name: string): boolean;
     //Атака
@@ -621,9 +630,11 @@ type
     //Включает/выключает автоматическое использование сосок (зарядов души\духа)
     function AutoSoulShot(const {%H-}Name: string; {%H-}Active: boolean): boolean;
     //Авто-подбор цели
-    function AutoTarget({%H-}Range: cardinal = 2000; {%H-}ZRange: cardinal = 300; {%H-}NotBusy: boolean = True): boolean;
+    function AutoTarget({%H-}Range: cardinal = 2000; {%H-}ZRange: cardinal = 300;
+    {%H-}NotBusy: boolean = True): boolean;
     //Поиск "врага" для заданного объекта в указанном радиусе (относительно объекта). Найденный "враг" будет записан в переменную Enemy.
-    function FindEnemy(var {%H-}Enemy: TL2Live; {%H-}Obj: TL2Live; {%H-}Range: cardinal = 2000; {%H-}ZRange: cardinal = 300): boolean;
+    function FindEnemy(var {%H-}Enemy: TL2Live; {%H-}Obj: TL2Live;
+    {%H-}Range: cardinal = 2000; {%H-}ZRange: cardinal = 300): boolean;
     //Взять в таргет по имени
     function SetTarget(const {%H-}Name: string): boolean; overload;
     //Взять в таргет по ID
@@ -635,7 +646,8 @@ type
     //Подобирает указанный объект
     function PickUp({%H-}Obj: TL2Drop; {%H-}Pet: boolean = False): boolean; overload;
     //Авто-подбор всего дропа в указанном радиусе
-    function PickUp({%H-}Range: cardinal = 250; {%H-}ZRange: cardinal = 150; {%H-}OnlyMy: boolean = False; {%H-}Pet: boolean = False): integer; overload;
+    function PickUp({%H-}Range: cardinal = 250; {%H-}ZRange: cardinal = 150;
+    {%H-}OnlyMy: boolean = False; {%H-}Pet: boolean = False): integer; overload;
     //Включить / отключить интерфеис
     function FaceControl({%H-}ID: integer; {%H-}Active: boolean): boolean;
     //Загрузка конфига с указанным именем. По умолчанию из папки Settings, но можно указать полный путь.
@@ -681,19 +693,24 @@ type
     //Текущий статус аккаунта
     function Status: TL2Status;
     //Ожидание события или группы событий
-    function WaitAction({%H-}Actions: TL2Actions; var {%H-}P1; var {%H-}P2; {%H-}TimeOut: cardinal = High(cardinal)): TL2Actions;
+    function WaitAction({%H-}Actions: TL2Actions; var {%H-}P1; var {%H-}P2;
+    {%H-}TimeOut: cardinal = High(cardinal)): TL2Actions;
     //Напечатать текст (Нажать Enter > написать Txt > нажать Enter)
     function EnterText(const {%H-}Txt: string): boolean;
     //Написать сообщение в чат
-    function Say(const {%H-}Text: string; {%H-}ChatType: cardinal = 0; const {%H-}Nick: string = ''): boolean;
+    function Say(const {%H-}Text: string; {%H-}ChatType: cardinal = 0;
+      const {%H-}Nick: string = ''): boolean;
     //Нажить клавишу по названию
-    function UseKey(const {%H-}Key: string; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
+    function UseKey(const {%H-}Key: string; {%H-}Ctrl: boolean = False;
+    {%H-}Shift: boolean = False): boolean; overload;
     //Нажать клавишу, используя код кнопки
-    function UseKey({%H-}Key: word; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
+    function UseKey({%H-}Key: word; {%H-}Ctrl: boolean = False;
+    {%H-}Shift: boolean = False): boolean; overload;
     //Вызов функции в скрипте другого аккаунта. Вызываемая функция должна иметь вид OnEntry
     function Entry(var {%H-}Param): boolean;
     //Расчитывает путь между двумя точками с учетом нарисованной зоны и помещает точки в PathList подряд
-    function FindPath({%H-}StartX, {%H-}StartY, {%H-}EndX, {%H-}EndY: integer; {%H-}PathList: TList): boolean;
+    function FindPath({%H-}StartX, {%H-}StartY, {%H-}EndX, {%H-}EndY: integer;
+    {%H-}PathList: TList): boolean;
     //Написать системное сообщение в окне бота, различного цвета (TColor - информация о цветах)
     procedure Msg({%H-}Who, {%H-}What: string; {%H-}Color: integer);
     //Проверка объекта на "занятость" другими игроками
@@ -705,7 +722,8 @@ type
     //Узнать ник наставника
     function GetMentor: string;
     //Приглаить в группу игрока с указанным именем
-    function InviteParty(const {%H-}Name: string; {%H-}Loot: TLootType = ldLooter): boolean;
+    function InviteParty(const {%H-}Name: string;
+    {%H-}Loot: TLootType = ldLooter): boolean;
     //Исключает игрока с указанным именем из группы
     function DismissParty(const {%H-}Name: string): boolean;
     //Ответить на приглашение в группу
@@ -721,9 +739,11 @@ type
     //Начать диалог с NPC
     function DlgOpen: boolean;
     //Выбирает при диалоге строку Txt
-    function DlgSel(const {%H-}Txt: string; const {%H-}TimeOut: integer = 1000): boolean; overload;
+    function DlgSel(const {%H-}Txt: string; const {%H-}TimeOut: integer = 1000): boolean;
+      overload;
     //Выбирает при диалоге строку с порядковым номером Index
-    function DlgSel({%H-}Index: integer; const {%H-}TimeOut: integer = 1000): boolean; overload;
+    function DlgSel({%H-}Index: integer; const {%H-}TimeOut: integer = 1000): boolean;
+      overload;
     //Содержит полный текст текущего диалога
     function DlgText: string;
     //Отвечает на запросы Да/Нет
@@ -739,9 +759,11 @@ type
     //Автопринятие командного канала
     procedure AutoAcceptCC({%H-}Names: string);
     //Использование скила по названию
-    function UseSkill(const {%H-}Name: string; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
+    function UseSkill(const {%H-}Name: string; {%H-}Ctrl: boolean = False;
+    {%H-}Shift: boolean = False): boolean; overload;
     //Использование скила по ID
-    function UseSkill({%H-}ID: cardinal; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean; overload;
+    function UseSkill({%H-}ID: cardinal; {%H-}Ctrl: boolean = False;
+    {%H-}Shift: boolean = False): boolean; overload;
     //Использовать скил без проверки на откат / количество MP
     function DUseSkill({%H-}ID: cardinal; {%H-}Ctrl, {%H-}Shift: boolean): boolean;
     //Прервать чтение заклинания
@@ -753,7 +775,8 @@ type
     //Открывает окно умений (для Interlude серверов)
     function UpdateSkillList: boolean;
     //Использовать умение на указанные координаты
-    function UseSkillGround({%H-}ID: cardinal; {%H-}X, {%H-}Y, {%H-}Z: integer; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean;
+    function UseSkillGround({%H-}ID: cardinal; {%H-}X, {%H-}Y, {%H-}Z: integer;
+    {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean;
     //Обмен вещей у NPC
     function NpcExchange({%H-}ID: cardinal; {%H-}Count: cardinal): boolean;
     //Покупка или продажа предметов торговцу
@@ -787,7 +810,8 @@ type
     //Узнать статус кнопки интерфейса: включен\выключен? (FaceControl)
     function GetFaceState({%H-}ID: integer): boolean;
     //Использовать предмет по названию
-    function UseItem(const {%H-}Name: string; {%H-}Pet: boolean = False): boolean; overload;
+    function UseItem(const {%H-}Name: string; {%H-}Pet: boolean = False): boolean;
+      overload;
     //Использовать предмет по идентификатору
     function UseItem({%H-}ID: cardinal; {%H-}Pet: boolean = False): boolean; overload;
     //Использовать конкретный предмет
@@ -795,7 +819,8 @@ type
     //Работа со складом
     function LoadItems({%H-}ToWH: boolean; {%H-}Items: array of cardinal): boolean;
     //Отдать пету / забрать у пета указанный предмет
-    function MoveItem(const {%H-}Name: string; {%H-}Count: cardinal; {%H-}ToPet: boolean): boolean;
+    function MoveItem(const {%H-}Name: string; {%H-}Count: cardinal;
+    {%H-}ToPet: boolean): boolean;
     //Проверка экипировки
     function Equipped(const {%H-}Name: string): integer;
     //Скрафтить предмет
@@ -803,11 +828,13 @@ type
     //Разбить предмет на кристалы
     function CrystalItem({%H-}ID: cardinal): boolean;
     //Удалить предмет по названию
-    function DestroyItem(const {%H-}Name: string; {%H-}Count: cardinal): boolean; overload;
+    function DestroyItem(const {%H-}Name: string; {%H-}Count: cardinal): boolean;
+      overload;
     //Удалить предмет по ID
     function DestroyItem({%H-}ID: integer; {%H-}Count: cardinal): boolean; overload;
     //Использование игровых действий
-    function UseAction({%H-}ID: cardinal; {%H-}Ctrl: boolean = False; {%H-}Shift: boolean = False): boolean;
+    function UseAction({%H-}ID: cardinal; {%H-}Ctrl: boolean = False;
+    {%H-}Shift: boolean = False): boolean;
     //Сесть
     function Sit: boolean;
     //Встать
@@ -815,15 +842,20 @@ type
     //Сделать Unstuck
     function Unstuck: boolean;
     //Создать комнату группы (подбор группы)
-    function CreateRoom({%H-}Text: string; {%H-}LevelStart, {%H-}LevelEnd: integer): boolean;
+    function CreateRoom({%H-}Text: string;
+    {%H-}LevelStart, {%H-}LevelEnd: integer): boolean;
     //Закрыть комнату группы
     function CloseRoom: boolean;
     //Открыть личную лавку (покупка \ продажа \ крафт)
-    function OpenPrivateStore({%H-}PriceList: array of cardinal; {%H-}StoreType: byte; {%H-}StoreMsg: string): boolean;
+    function OpenPrivateStore({%H-}PriceList: array of cardinal;
+    {%H-}StoreType: byte; {%H-}StoreMsg: string): boolean;
     //Отправка почты
-    function SendMail(const {%H-}Recipient: string; const {%H-}Theme: string; const {%H-}Content: string; {%H-}Items: array of cardinal; {%H-}Price: cardinal = 0): boolean;
+    function SendMail(const {%H-}Recipient: string; const {%H-}Theme: string;
+      const {%H-}Content: string; {%H-}Items: array of cardinal;
+    {%H-}Price: cardinal = 0): boolean;
     //Принять почту
-    function GetMailItems({%H-}MaxLoad: cardinal = 65; {%H-}MaxCount: cardinal = 1000): boolean;
+    function GetMailItems({%H-}MaxLoad: cardinal = 65;
+    {%H-}MaxCount: cardinal = 1000): boolean;
     //Очистить почтовый ящик
     function ClearMail: boolean;
   end;
@@ -854,9 +886,11 @@ type
     //Загрузка базы Gps, возвращает кол-во загруженных точек
     function LoadBase(const {%H-}FilePath: string): integer;
     //Прокладывает маршрут от точки (X1, Y1, Z1) до (X2, Y2, Z2) и записывает точки этого маршрута в GPS.Items. Возвращает длину проложенного маршрута
-    function GetPath({%H-}X1, {%H-}Y1, {%H-}Z1, {%H-}X2, {%H-}Y2, {%H-}Z2: single): integer;
+    function GetPath({%H-}X1, {%H-}Y1, {%H-}Z1, {%H-}X2, {%H-}Y2,
+    {%H-}Z2: single): integer;
     //Прокладывает маршрут до точки по ее названию и записывает точки этого маршрута в GPS.Items. Возвращает длину проложенного маршрута
-    function GetPathByName({%H-}X1, {%H-}Y1, {%H-}Z1: single; {%H-}PointName: string): integer;
+    function GetPathByName({%H-}X1, {%H-}Y1, {%H-}Z1: single;
+    {%H-}PointName: string): integer;
     //Возвращает точку с указанным индексом
     function Items({%H-}Index: integer): TGpsPoint;
   end;
@@ -883,6 +917,18 @@ type
     property ChatType: TMessageType read GetChatType;
   end;
 
+  //Класс описывающий изучаемые умения
+  TLearnItem = class(TL2Item)
+
+  end;
+
+  //Класс управления списком игровых объектов
+  TLearnItemList = class(TL2List)
+  public
+    //Позволяет обратиться к объекту в списке по индексу
+    function Items({%H-}Index: integer): TLearnItem; overload;
+  end;
+
 //!!! Глобальные объекты !!!
 var
   //Глобальный массив, доступный всем аккаунтам
@@ -895,8 +941,11 @@ var
   User: TL2User;
   //Список лотов на аукционе
   Auction: TAuctionList;
+
   //Список всех объектов, имеющих координаты
-  SpawnList: TSpawnList;
+  //Объект отсутствует в последней ревизии скриптового движка
+  //SpawnList: TSpawnList;
+
   //Список всех видимых NPC
   NpcList: TNpcList;
   //Список всех петов
@@ -915,6 +964,11 @@ var
   Inventory: TInventory;
   //Буфер, хранящий последнюю информацию о чате
   ChatMessage: TChatMessage;
+  //Список скилов, доступных для изучения
+  LearnList: TLearnItemList;
+  //Список скилов, доступных для изучения у NPC
+  LearnList2: TLearnItemList;
+
 
 //!!! Глобальные функции/процедуры !!!
 
@@ -1088,12 +1142,14 @@ begin
   Result := TL2AucItem.Create();
 end;
 
-function TL2Auction.Search(const Name: string; Grade: integer = -1; PageID: integer = 0): boolean;
+function TL2Auction.Search(const Name: string; Grade: integer = -1;
+  PageID: integer = 0): boolean;
 begin
   Result := False;
 end;
 
-function TL2Auction.SellItem(_Item: TL2Item; _Count, _Price, _Days: cardinal; _CustomName: string = ''): boolean;
+function TL2Auction.SellItem(_Item: TL2Item; _Count, _Price, _Days: cardinal;
+  _CustomName: string = ''): boolean;
 begin
   Result := False;
 end;
@@ -1148,7 +1204,8 @@ begin
   Result := 0;
 end;
 
-function TL2Spawn.InRange(_X: integer; _Y: integer; _Z: integer; _Range: cardinal; _ZRange: cardinal = 250): boolean;
+function TL2Spawn.InRange(_X: integer; _Y: integer; _Z: integer;
+  _Range: cardinal; _ZRange: cardinal = 250): boolean;
 begin
   Result := False;
 end;
@@ -1550,7 +1607,8 @@ begin
   NOP;
 end;
 
-function TL2Script.StartPlugin(const PluginName: string; PProc: Pointer; ShowModal: boolean): boolean;
+function TL2Script.StartPlugin(const PluginName: string; PProc: Pointer;
+  ShowModal: boolean): boolean;
 begin
   Result := False;
 end;
@@ -1667,7 +1725,8 @@ begin
 end;
 
 
-function TL2Control.MoveTo(X, Y, Z: integer; const TimeOut: integer = 8000): boolean; overload;
+function TL2Control.MoveTo(X, Y, Z: integer; const TimeOut: integer = 8000): boolean;
+  overload;
 begin
   Result := False;
 end;
@@ -1702,12 +1761,14 @@ begin
   Result := False;
 end;
 
-function TL2Control.AuctionSearch(const Name: string; Grade: integer = -1; PageID: integer = 0): boolean;
+function TL2Control.AuctionSearch(const Name: string; Grade: integer = -1;
+  PageID: integer = 0): boolean;
 begin
   Result := False;
 end;
 
-function TL2Control.AuctionSellItem(Item: TL2Item; Count, Price, Days: cardinal; CustomName: string = ''): boolean;
+function TL2Control.AuctionSellItem(Item: TL2Item; Count, Price, Days: cardinal;
+  CustomName: string = ''): boolean;
 begin
   Result := False;
 end;
@@ -1727,12 +1788,14 @@ begin
   Result := False;
 end;
 
-function TL2Control.AutoTarget(Range: cardinal = 2000; ZRange: cardinal = 300; NotBusy: boolean = True): boolean;
+function TL2Control.AutoTarget(Range: cardinal = 2000; ZRange: cardinal = 300;
+  NotBusy: boolean = True): boolean;
 begin
   Result := False;
 end;
 
-function TL2Control.FindEnemy(var Enemy: TL2Live; Obj: TL2Live; Range: cardinal = 2000; ZRange: cardinal = 300): boolean;
+function TL2Control.FindEnemy(var Enemy: TL2Live; Obj: TL2Live;
+  Range: cardinal = 2000; ZRange: cardinal = 300): boolean;
 begin
   Result := False;
 end;
@@ -1762,7 +1825,8 @@ begin
   Result := False;
 end;
 
-function TL2Control.PickUp(Range: cardinal = 250; ZRange: cardinal = 150; OnlyMy: boolean = False; Pet: boolean = False): integer; overload;
+function TL2Control.PickUp(Range: cardinal = 250; ZRange: cardinal = 150;
+  OnlyMy: boolean = False; Pet: boolean = False): integer; overload;
 begin
   Result := 0;
 end;
@@ -1877,7 +1941,8 @@ begin
   Result := TL2Status.lsOff;
 end;
 
-function TL2Control.WaitAction(Actions: TL2Actions; var P1; var P2; TimeOut: cardinal = High(cardinal)): TL2Actions;
+function TL2Control.WaitAction(Actions: TL2Actions; var P1; var P2;
+  TimeOut: cardinal = High(cardinal)): TL2Actions;
 begin
   Result := TL2Actions.atTeleport;
 end;
@@ -1887,17 +1952,20 @@ begin
   Result := False;
 end;
 
-function TL2Control.Say(const Text: string; ChatType: cardinal = 0; const Nick: string = ''): boolean;
+function TL2Control.Say(const Text: string; ChatType: cardinal = 0;
+  const Nick: string = ''): boolean;
 begin
   Result := False;
 end;
 
-function TL2Control.UseKey(const Key: string; Ctrl: boolean = False; Shift: boolean = False): boolean; overload;
+function TL2Control.UseKey(const Key: string; Ctrl: boolean = False;
+  Shift: boolean = False): boolean; overload;
 begin
   Result := False;
 end;
 
-function TL2Control.UseKey(Key: word; Ctrl: boolean = False; Shift: boolean = False): boolean; overload;
+function TL2Control.UseKey(Key: word; Ctrl: boolean = False;
+  Shift: boolean = False): boolean; overload;
 begin
   Result := False;
 end;
@@ -1907,7 +1975,8 @@ begin
   Result := False;
 end;
 
-function TL2Control.FindPath(StartX, StartY, EndX, EndY: integer; PathList: TList): boolean;
+function TL2Control.FindPath(StartX, StartY, EndX, EndY: integer;
+  PathList: TList): boolean;
 begin
   Result := False;
 end;
@@ -1977,12 +2046,14 @@ begin
   Result := False;
 end;
 
-function TL2Control.DlgSel(const Txt: string; const TimeOut: integer = 1000): boolean; overload;
+function TL2Control.DlgSel(const Txt: string; const TimeOut: integer = 1000): boolean;
+  overload;
 begin
   Result := False;
 end;
 
-function TL2Control.DlgSel(Index: integer; const TimeOut: integer = 1000): boolean; overload;
+function TL2Control.DlgSel(Index: integer; const TimeOut: integer = 1000): boolean;
+  overload;
 begin
   Result := False;
 end;
@@ -2022,12 +2093,14 @@ begin
   NOP;
 end;
 
-function TL2Control.UseSkill(const Name: string; Ctrl: boolean = False; Shift: boolean = False): boolean; overload;
+function TL2Control.UseSkill(const Name: string; Ctrl: boolean = False;
+  Shift: boolean = False): boolean; overload;
 begin
   Result := False;
 end;
 
-function TL2Control.UseSkill(ID: cardinal; Ctrl: boolean = False; Shift: boolean = False): boolean; overload;
+function TL2Control.UseSkill(ID: cardinal; Ctrl: boolean = False;
+  Shift: boolean = False): boolean; overload;
 begin
   Result := False;
 end;
@@ -2057,7 +2130,8 @@ begin
   Result := False;
 end;
 
-function TL2Control.UseSkillGround(ID: cardinal; X, Y, Z: integer; Ctrl: boolean = False; Shift: boolean = False): boolean;
+function TL2Control.UseSkillGround(ID: cardinal; X, Y, Z: integer;
+  Ctrl: boolean = False; Shift: boolean = False): boolean;
 begin
   Result := False;
 end;
@@ -2162,7 +2236,8 @@ begin
   Result := False;
 end;
 
-function TL2Control.MoveItem(const Name: string; Count: cardinal; ToPet: boolean): boolean;
+function TL2Control.MoveItem(const Name: string; Count: cardinal;
+  ToPet: boolean): boolean;
 begin
   Result := False;
 end;
@@ -2192,7 +2267,8 @@ begin
   Result := False;
 end;
 
-function TL2Control.UseAction(ID: cardinal; Ctrl: boolean = False; Shift: boolean = False): boolean;
+function TL2Control.UseAction(ID: cardinal; Ctrl: boolean = False;
+  Shift: boolean = False): boolean;
 begin
   Result := False;
 end;
@@ -2222,17 +2298,20 @@ begin
   Result := False;
 end;
 
-function TL2Control.OpenPrivateStore(PriceList: array of cardinal; StoreType: byte; StoreMsg: string): boolean;
+function TL2Control.OpenPrivateStore(PriceList: array of cardinal;
+  StoreType: byte; StoreMsg: string): boolean;
 begin
   Result := False;
 end;
 
-function TL2Control.SendMail(const Recipient: string; const Theme: string; const Content: string; Items: array of cardinal; Price: cardinal = 0): boolean;
+function TL2Control.SendMail(const Recipient: string; const Theme: string;
+  const Content: string; Items: array of cardinal; Price: cardinal = 0): boolean;
 begin
   Result := False;
 end;
 
-function TL2Control.GetMailItems(MaxLoad: cardinal = 65; MaxCount: cardinal = 1000): boolean;
+function TL2Control.GetMailItems(MaxLoad: cardinal = 65;
+  MaxCount: cardinal = 1000): boolean;
 begin
   Result := False;
 end;
@@ -2265,6 +2344,11 @@ end;
 function TGps.Items(Index: integer): TGpsPoint;
 begin
   Result := TGpsPoint.Create();
+end;
+
+function TLearnItemList.Items(Index: Integer): TLearnItem;
+begin
+     Result := TLearnItem.Create();
 end;
 
 //!!! Реализация глобальных функций/процедур !!!
@@ -2363,7 +2447,7 @@ begin
   Engine := TL2Control.Create();
   User := TL2User.Create();
   Auction := TAuctionList.Create();
-  SpawnList := TSpawnList.Create();
+  //SpawnList := TSpawnList.Create();
   NpcList := TNpcList.Create();
   PetList := TPetList.Create();
   CharList := TCharList.Create();
@@ -2373,4 +2457,6 @@ begin
   WareHouse := TItemList.Create();
   Inventory := TInventory.Create();
   ChatMessage := TChatMessage.Create();
+  LearnList := TLearnItemList.Create();
+  LearnList2 := TLearnItemList.Create();
 end.
