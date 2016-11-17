@@ -918,8 +918,22 @@ type
   end;
 
   //Класс описывающий изучаемые умения
-  TLearnItem = class(TL2Item)
+  TLearnItem = class
+  private
+    GetID: cardinal;
+    GetName: string;
+    GetLevel: cardinal;
+    GetSpCost: cardinal;
+    GetNeedLevel: cardinal;
+    GetRequirements: boolean;
 
+  public
+    property ID: cardinal read GetID;
+    property Name: string read GetName;
+    property Level: cardinal read GetLevel;
+    property SpCost: cardinal read GetSpCost;
+    property NeedLevel: cardinal read GetNeedLevel;
+    property Requirements: boolean read GetRequirements;
   end;
 
   //Класс управления списком игровых объектов
@@ -2346,9 +2360,9 @@ begin
   Result := TGpsPoint.Create();
 end;
 
-function TLearnItemList.Items(Index: Integer): TLearnItem;
+function TLearnItemList.Items(Index: integer): TLearnItem;
 begin
-     Result := TLearnItem.Create();
+  Result := TLearnItem.Create();
 end;
 
 //!!! Реализация глобальных функций/процедур !!!
